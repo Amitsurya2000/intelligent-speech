@@ -28,6 +28,7 @@ pub enum EngineType {
     Canary,
     Cohere,
     Nemotron,
+    IndicConformer,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Type)]
@@ -128,7 +129,7 @@ impl ModelManager {
             "small".to_string(),
             ModelInfo {
                 id: "small".to_string(),
-                name: "Whisper Small".to_string(),
+                name: "Whisper Small (Multilingual)".to_string(),
                 description: "Fast and fairly accurate.".to_string(),
                 filename: "ggml-small.bin".to_string(),
                 url: Some("https://blob.handy.computer/ggml-small.bin".to_string()),
@@ -155,7 +156,7 @@ impl ModelManager {
             "nemotron-3.5-asr".to_string(),
             ModelInfo {
                 id: "nemotron-3.5-asr".to_string(),
-                name: "Nemotron 3.5 (Hindi + 40 languages)".to_string(),
+                name: "Nemotron 3.5 (Hindi)".to_string(),
                 description: "NVIDIA streaming model. Auto-detects 40 languages including Hindi."
                     .to_string(),
                 filename: "nemotron-int4".to_string(), // Directory name
@@ -188,12 +189,47 @@ impl ModelManager {
             },
         );
 
+        available_models.insert(
+            "indic-conformer".to_string(),
+            ModelInfo {
+                id: "indic-conformer".to_string(),
+                name: "IndicConformer (8 Indian langs — fast)".to_string(),
+                description: "AI4Bharat. Fast & accurate for Hindi, Bengali, Gujarati, Kannada, Marathi, Assamese, Bodo, Kashmiri.".to_string(),
+                filename: "indic-conformer-int8".to_string(), // Directory name
+                url: Some(
+                    "https://github.com/Amitsurya2000/intelligent-speech/releases/download/models/indic-conformer-int8.tar.gz"
+                        .to_string(),
+                ),
+                sha256: Some(
+                    "942771b70b43afdd9cc032390b3ec80b127d022c75117ce843be2bd7e94258c8".to_string(),
+                ),
+                size_mb: 150,
+                is_downloaded: false,
+                is_downloading: false,
+                partial_size: 0,
+                is_directory: true,
+                engine_type: EngineType::IndicConformer,
+                accuracy_score: 0.85,
+                speed_score: 0.92,
+                supports_translation: false,
+                is_recommended: false,
+                supported_languages: vec![
+                    "hi", "bn", "gu", "kn", "mr", "as", "brx", "ks",
+                ]
+                .into_iter()
+                .map(String::from)
+                .collect(),
+                supports_language_selection: false,
+                is_custom: false,
+            },
+        );
+
         // Add downloadable models
         available_models.insert(
             "medium".to_string(),
             ModelInfo {
                 id: "medium".to_string(),
-                name: "Whisper Medium".to_string(),
+                name: "Whisper Medium (Multilingual)".to_string(),
                 description: "Good accuracy, medium speed".to_string(),
                 filename: "whisper-medium-q4_1.bin".to_string(),
                 url: Some("https://blob.handy.computer/whisper-medium-q4_1.bin".to_string()),
@@ -220,7 +256,7 @@ impl ModelManager {
             "turbo".to_string(),
             ModelInfo {
                 id: "turbo".to_string(),
-                name: "Whisper Turbo".to_string(),
+                name: "Whisper Turbo (Indian + 99 langs)".to_string(),
                 description: "Balanced accuracy and speed.".to_string(),
                 filename: "ggml-large-v3-turbo.bin".to_string(),
                 url: Some("https://blob.handy.computer/ggml-large-v3-turbo.bin".to_string()),
@@ -247,7 +283,7 @@ impl ModelManager {
             "large".to_string(),
             ModelInfo {
                 id: "large".to_string(),
-                name: "Whisper Large".to_string(),
+                name: "Whisper Large (Indian + 99 langs)".to_string(),
                 description: "Good accuracy, but slow.".to_string(),
                 filename: "ggml-large-v3-q5_0.bin".to_string(),
                 url: Some("https://blob.handy.computer/ggml-large-v3-q5_0.bin".to_string()),
@@ -274,7 +310,7 @@ impl ModelManager {
             "breeze-asr".to_string(),
             ModelInfo {
                 id: "breeze-asr".to_string(),
-                name: "Breeze ASR".to_string(),
+                name: "Breeze ASR (Mandarin)".to_string(),
                 description: "Optimized for Taiwanese Mandarin. Code-switching support."
                     .to_string(),
                 filename: "breeze-asr-q5_k.bin".to_string(),
@@ -303,7 +339,7 @@ impl ModelManager {
             "parakeet-tdt-0.6b-v2".to_string(),
             ModelInfo {
                 id: "parakeet-tdt-0.6b-v2".to_string(),
-                name: "Parakeet V2".to_string(),
+                name: "Parakeet V2 (English)".to_string(),
                 description: "English only. The best model for English speakers.".to_string(),
                 filename: "parakeet-tdt-0.6b-v2-int8".to_string(), // Directory name
                 url: Some("https://blob.handy.computer/parakeet-v2-int8.tar.gz".to_string()),
@@ -340,7 +376,7 @@ impl ModelManager {
             "parakeet-tdt-0.6b-v3".to_string(),
             ModelInfo {
                 id: "parakeet-tdt-0.6b-v3".to_string(),
-                name: "Parakeet V3".to_string(),
+                name: "Parakeet V3 (English + European)".to_string(),
                 description: "Fast and accurate. Supports 25 European languages.".to_string(),
                 filename: "parakeet-tdt-0.6b-v3-int8".to_string(), // Directory name
                 url: Some("https://blob.handy.computer/parakeet-v3-int8.tar.gz".to_string()),
@@ -367,7 +403,7 @@ impl ModelManager {
             "moonshine-base".to_string(),
             ModelInfo {
                 id: "moonshine-base".to_string(),
-                name: "Moonshine Base".to_string(),
+                name: "Moonshine Base (English)".to_string(),
                 description: "Very fast, English only. Handles accents well.".to_string(),
                 filename: "moonshine-base".to_string(),
                 url: Some("https://blob.handy.computer/moonshine-base.tar.gz".to_string()),
@@ -394,7 +430,7 @@ impl ModelManager {
             "moonshine-tiny-streaming-en".to_string(),
             ModelInfo {
                 id: "moonshine-tiny-streaming-en".to_string(),
-                name: "Moonshine V2 Tiny".to_string(),
+                name: "Moonshine V2 Tiny (English)".to_string(),
                 description: "Ultra-fast, English only".to_string(),
                 filename: "moonshine-tiny-streaming-en".to_string(),
                 url: Some(
@@ -423,7 +459,7 @@ impl ModelManager {
             "moonshine-small-streaming-en".to_string(),
             ModelInfo {
                 id: "moonshine-small-streaming-en".to_string(),
-                name: "Moonshine V2 Small".to_string(),
+                name: "Moonshine V2 Small (English)".to_string(),
                 description: "Fast, English only. Good balance of speed and accuracy.".to_string(),
                 filename: "moonshine-small-streaming-en".to_string(),
                 url: Some(
@@ -452,7 +488,7 @@ impl ModelManager {
             "moonshine-medium-streaming-en".to_string(),
             ModelInfo {
                 id: "moonshine-medium-streaming-en".to_string(),
-                name: "Moonshine V2 Medium".to_string(),
+                name: "Moonshine V2 Medium (English)".to_string(),
                 description: "English only. High quality.".to_string(),
                 filename: "moonshine-medium-streaming-en".to_string(),
                 url: Some(
@@ -488,7 +524,7 @@ impl ModelManager {
             "sense-voice-int8".to_string(),
             ModelInfo {
                 id: "sense-voice-int8".to_string(),
-                name: "SenseVoice".to_string(),
+                name: "SenseVoice (Chinese/Japanese/Korean)".to_string(),
                 description: "Very fast. Chinese, English, Japanese, Korean, Cantonese."
                     .to_string(),
                 filename: "sense-voice-int8".to_string(),
@@ -519,7 +555,7 @@ impl ModelManager {
             "gigaam-v3-e2e-ctc".to_string(),
             ModelInfo {
                 id: "gigaam-v3-e2e-ctc".to_string(),
-                name: "GigaAM v3".to_string(),
+                name: "GigaAM v3 (Russian)".to_string(),
                 description: "Russian speech recognition. Fast and accurate.".to_string(),
                 filename: "giga-am-v3-int8".to_string(),
                 url: Some("https://blob.handy.computer/giga-am-v3-int8.tar.gz".to_string()),
@@ -552,7 +588,7 @@ impl ModelManager {
             "canary-180m-flash".to_string(),
             ModelInfo {
                 id: "canary-180m-flash".to_string(),
-                name: "Canary 180M Flash".to_string(),
+                name: "Canary 180M Flash (English + European)".to_string(),
                 description: "Very fast. English, German, Spanish, French. Supports translation."
                     .to_string(),
                 filename: "canary-180m-flash".to_string(),
@@ -589,7 +625,7 @@ impl ModelManager {
             "canary-1b-v2".to_string(),
             ModelInfo {
                 id: "canary-1b-v2".to_string(),
-                name: "Canary 1B v2".to_string(),
+                name: "Canary 1B v2 (English + European)".to_string(),
                 description: "Accurate multilingual. 25 European languages. Supports translation."
                     .to_string(),
                 filename: "canary-1b-v2".to_string(),
@@ -625,7 +661,7 @@ impl ModelManager {
             "cohere-int8".to_string(),
             ModelInfo {
                 id: "cohere-int8".to_string(),
-                name: "Cohere".to_string(),
+                name: "Cohere (Multilingual)".to_string(),
                 description: "A large, slower, but very accurate multilingual model.".to_string(),
                 filename: "cohere-int8".to_string(),
                 url: Some("https://blob.handy.computer/cohere-int8.tar.gz".to_string()),
@@ -1540,7 +1576,7 @@ mod tests {
             "small".to_string(),
             ModelInfo {
                 id: "small".to_string(),
-                name: "Whisper Small".to_string(),
+                name: "Whisper Small (Multilingual)".to_string(),
                 description: "Test".to_string(),
                 filename: "ggml-small.bin".to_string(),
                 url: Some("https://example.com".to_string()),

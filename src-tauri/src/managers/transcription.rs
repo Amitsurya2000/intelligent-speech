@@ -19,6 +19,7 @@ use transcribe_rs::{
         canary::CanaryModel,
         cohere::CohereModel,
         gigaam::GigaAMModel,
+        indic_conformer::{IndicConformerModel, IndicConformerParams},
         moonshine::{MoonshineModel, MoonshineVariant, StreamingModel},
         nemotron::{NemotronModel, NemotronParams},
         parakeet::{ParakeetModel, ParakeetParams, TimestampGranularity},
@@ -47,6 +48,7 @@ enum LoadedEngine {
     Canary(CanaryModel),
     Cohere(CohereModel),
     Nemotron(NemotronModel),
+    IndicConformer(IndicConformerModel),
 }
 
 /// RAII guard that clears the `is_loading` flag and notifies waiters on drop.
@@ -387,6 +389,17 @@ impl TranscriptionManager {
                 })?;
                 LoadedEngine::Nemotron(engine)
             }
+            EngineType::IndicConformer => {
+                let engine = IndicConformerModel::load(&model_path, &Quantization::Int8).map_err(
+                    |e| {
+                        let error_msg =
+                            format!("Failed to load IndicConformer model {}: {}", model_id, e);
+                        emit_loading_failed(&error_msg);
+                        anyhow::anyhow!(error_msg)
+                    },
+                )?;
+                LoadedEngine::IndicConformer(engine)
+            }
         };
 
         // Update the current engine and model ID
@@ -645,6 +658,14 @@ impl TranscriptionManager {
                                 .transcribe_with(&audio, &NemotronParams::default())
                                 .map_err(|e| {
                                     anyhow::anyhow!("Nemotron transcription failed: {}", e)
+                                })
+                        }
+                        LoadedEngine::IndicConformer(indic_engine) => {
+                            // CTC model auto-handles its 8 Indian languages (multi-script vocab)
+                            indic_engine
+                                .transcribe_with(&audio, &IndicConformerParams::default())
+                                .map_err(|e| {
+                                    anyhow::anyhow!("IndicConformer transcription failed: {}", e)
                                 })
                         }
                     }
