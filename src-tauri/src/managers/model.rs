@@ -224,6 +224,41 @@ impl ModelManager {
             },
         );
 
+        available_models.insert(
+            "vistaar-indicwhisper".to_string(),
+            ModelInfo {
+                id: "vistaar-indicwhisper".to_string(),
+                name: "Vistaar IndicWhisper (Hindi — best)".to_string(),
+                description: "AI4Bharat Whisper fine-tuned on Indian speech. Best accuracy for Hindi.".to_string(),
+                filename: "ggml-vistaar-indicwhisper.bin".to_string(),
+                url: Some(
+                    "https://github.com/Amitsurya2000/intelligent-speech/releases/download/models/ggml-vistaar-indicwhisper.bin"
+                        .to_string(),
+                ),
+                sha256: Some(
+                    "c727e504ec7b4d0a464c835dd2e3a39aad6a6c499a39cd4badf2c42f6e169f1a".to_string(),
+                ),
+                size_mb: 1462,
+                is_downloaded: false,
+                is_downloading: false,
+                partial_size: 0,
+                is_directory: false,
+                engine_type: EngineType::Whisper,
+                accuracy_score: 0.90,
+                speed_score: 0.60,
+                supports_translation: true,
+                is_recommended: false,
+                supported_languages: vec![
+                    "hi", "bn", "gu", "kn", "ml", "mr", "or", "pa", "sa", "ta", "te", "ur",
+                ]
+                .into_iter()
+                .map(String::from)
+                .collect(),
+                supports_language_selection: true,
+                is_custom: false,
+            },
+        );
+
         // Add downloadable models
         available_models.insert(
             "medium".to_string(),
