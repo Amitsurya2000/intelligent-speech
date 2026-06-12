@@ -27,6 +27,7 @@ pub enum EngineType {
     GigaAM,
     Canary,
     Cohere,
+    Nemotron,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Type)]
@@ -146,6 +147,43 @@ impl ModelManager {
                 is_recommended: false,
                 supported_languages: whisper_languages.clone(),
                 supports_language_selection: true,
+                is_custom: false,
+            },
+        );
+
+        available_models.insert(
+            "nemotron-3.5-asr".to_string(),
+            ModelInfo {
+                id: "nemotron-3.5-asr".to_string(),
+                name: "Nemotron 3.5 (Hindi + 40 languages)".to_string(),
+                description: "NVIDIA streaming model. Auto-detects 40 languages including Hindi."
+                    .to_string(),
+                filename: "nemotron-int4".to_string(), // Directory name
+                url: Some(
+                    "https://github.com/Amitsurya2000/intelligent-speech/releases/download/models/nemotron-int4.tar.gz"
+                        .to_string(),
+                ),
+                sha256: Some(
+                    "47951845981d4d765d9eb59a304a3ef226ebdff5442dce83ae58aaf506ee60ad".to_string(),
+                ),
+                size_mb: 699,
+                is_downloaded: false,
+                is_downloading: false,
+                partial_size: 0,
+                is_directory: true,
+                engine_type: EngineType::Nemotron,
+                accuracy_score: 0.88,
+                speed_score: 0.80,
+                supports_translation: false,
+                is_recommended: false,
+                supported_languages: vec![
+                    "en", "hi", "es", "fr", "de", "it", "pt", "nl", "ru", "ar", "ja", "ko", "vi",
+                    "uk", "tr", "pl", "sv", "cs", "da", "fi",
+                ]
+                .into_iter()
+                .map(String::from)
+                .collect(),
+                supports_language_selection: false,
                 is_custom: false,
             },
         );

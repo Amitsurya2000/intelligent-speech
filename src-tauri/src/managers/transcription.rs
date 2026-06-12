@@ -20,6 +20,7 @@ use transcribe_rs::{
         cohere::CohereModel,
         gigaam::GigaAMModel,
         moonshine::{MoonshineModel, MoonshineVariant, StreamingModel},
+        nemotron::{NemotronModel, NemotronParams},
         parakeet::{ParakeetModel, ParakeetParams, TimestampGranularity},
         sense_voice::{SenseVoiceModel, SenseVoiceParams},
         Quantization,
@@ -45,6 +46,7 @@ enum LoadedEngine {
     GigaAM(GigaAMModel),
     Canary(CanaryModel),
     Cohere(CohereModel),
+    Nemotron(NemotronModel),
 }
 
 /// RAII guard that clears the `is_loading` flag and notifies waiters on drop.
@@ -377,6 +379,14 @@ impl TranscriptionManager {
                 })?;
                 LoadedEngine::Cohere(engine)
             }
+            EngineType::Nemotron => {
+                let engine = NemotronModel::load(&model_path, &Quantization::Int4).map_err(|e| {
+                    let error_msg = format!("Failed to load nemotron model {}: {}", model_id, e);
+                    emit_loading_failed(&error_msg);
+                    anyhow::anyhow!(error_msg)
+                })?;
+                LoadedEngine::Nemotron(engine)
+            }
         };
 
         // Update the current engine and model ID
@@ -628,6 +638,14 @@ impl TranscriptionManager {
                             cohere_engine
                                 .transcribe(&audio, &options)
                                 .map_err(|e| anyhow::anyhow!("Cohere transcription failed: {}", e))
+                        }
+                        LoadedEngine::Nemotron(nemotron_engine) => {
+                            // lang_id 0 = multilingual auto-detect (covers Hindi + 40 locales)
+                            nemotron_engine
+                                .transcribe_with(&audio, &NemotronParams::default())
+                                .map_err(|e| {
+                                    anyhow::anyhow!("Nemotron transcription failed: {}", e)
+                                })
                         }
                     }
                 },
