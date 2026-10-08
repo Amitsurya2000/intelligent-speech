@@ -3,6 +3,8 @@ import React from "react";
 // Brand wordmark for Intelligent Speech. Rendered as styled text (instead of an
 // SVG wordmark) so it always reflects the product name. Sizing scales from the
 // `width` prop so existing call sites (width={200} / width={120}) keep working.
+const BRAND_NAME = "Intelligent Speech";
+
 const HandyTextLogo = ({
   width,
   height,
@@ -27,7 +29,7 @@ const HandyTextLogo = ({
         textAlign: "center",
       }}
     >
-      Intelligent Speech
+      {BRAND_NAME}
     </div>
   );
 };

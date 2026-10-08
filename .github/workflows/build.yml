@@ -32,6 +32,11 @@ on:
         required: false
         type: boolean
         default: false
+      sign-updater:
+        description: "Sign updater artifacts and publish latest.json (needs TAURI_SIGNING_PRIVATE_KEY secret)"
+        required: false
+        type: boolean
+        default: false
       repository:
         required: false
         type: string
@@ -337,6 +342,12 @@ jobs:
             '.bundle.linux.deb.files["/usr/lib/libonnxruntime.so"] = $so | .bundle.linux.deb.files["/usr/lib/libonnxruntime.so.1"] = $so1 | .bundle.linux.deb.files["/usr/lib/libonnxruntime.so.1.24.2"] = $sov' \
             src-tauri/tauri.conf.json > tmp.json && mv tmp.json src-tauri/tauri.conf.json
 
+      - name: Enable updater artifacts
+        if: inputs.sign-updater
+        shell: bash
+        run: |
+          jq '.bundle.createUpdaterArtifacts = true'             src-tauri/tauri.conf.json > tmp.json && mv tmp.json src-tauri/tauri.conf.json
+
       - name: Build with Tauri
         uses: tauri-apps/tauri-action@v0
         env:
@@ -352,8 +363,8 @@ jobs:
           AZURE_CLIENT_ID: ${{ inputs.sign-binaries && secrets.AZURE_CLIENT_ID || '' }}
           AZURE_CLIENT_SECRET: ${{ inputs.sign-binaries && secrets.AZURE_CLIENT_SECRET || '' }}
           AZURE_TENANT_ID: ${{ inputs.sign-binaries && secrets.AZURE_TENANT_ID || '' }}
-          TAURI_SIGNING_PRIVATE_KEY: ${{ inputs.sign-binaries && secrets.TAURI_SIGNING_PRIVATE_KEY || '' }}
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ inputs.sign-binaries && secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD || '' }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ (inputs.sign-binaries || inputs.sign-updater) && secrets.TAURI_SIGNING_PRIVATE_KEY || '' }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ (inputs.sign-binaries || inputs.sign-updater) && secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD || '' }}
           # Disable -march=native and all SIMD instruction sets above SSE4.2 for
           # x86_64 builds. Without this, CPUs lacking AVX/FMA (e.g. Celeron N2920,
           # FX-8350) crash with SIGILL. The Vulkan backend handles heavy compute
