@@ -45,6 +45,11 @@ const AccessibilityOnboarding: React.FC<AccessibilityOnboardingProps> = ({
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const errorCountRef = useRef<number>(0);
   const MAX_POLLING_ERRORS = 3;
+  // Keep the latest onComplete in a ref. The parent recreates it every render,
+  // and using it as an effect dependency made the initial permission check
+  // re-run on each parent re-render (refreshing devices re-renders the parent).
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
 
   const isMacOS = permissionPlatform === "macos";
   const isWindows = permissionPlatform === "windows";
@@ -60,8 +65,8 @@ const AccessibilityOnboarding: React.FC<AccessibilityOnboardingProps> = ({
 
   const completeOnboarding = useCallback(async () => {
     await Promise.all([refreshAudioDevices(), refreshOutputDevices()]);
-    timeoutRef.current = setTimeout(() => onComplete(), 300);
-  }, [onComplete, refreshAudioDevices, refreshOutputDevices]);
+    timeoutRef.current = setTimeout(() => onCompleteRef.current(), 300);
+  }, [refreshAudioDevices, refreshOutputDevices]);
 
   const hasWindowsMicrophoneAccess = useCallback(async (): Promise<boolean> => {
     const microphoneStatus =
@@ -88,7 +93,7 @@ const AccessibilityOnboarding: React.FC<AccessibilityOnboardingProps> = ({
 
     // Skip immediately on unsupported platforms
     if (nextPlatform === "other") {
-      onComplete();
+      onCompleteRef.current();
       return;
     }
 
@@ -156,7 +161,7 @@ const AccessibilityOnboarding: React.FC<AccessibilityOnboardingProps> = ({
     };
 
     checkInitial();
-  }, [completeOnboarding, hasWindowsMicrophoneAccess, onComplete, t]);
+  }, [completeOnboarding, hasWindowsMicrophoneAccess, t]);
 
   // Polling for permissions after user clicks a button
   const startPolling = useCallback(() => {

@@ -96,7 +96,8 @@
     },
     "errors": {
       "loadModels": "Misslyckades med att ladda tillgängliga modeller",
-      "downloadModel": "Misslyckades med att ladda ner modell: {{error}}"
+      "downloadModel": "Misslyckades med att ladda ner modell: {{error}}",
+      "selectModel": "Couldn't activate the selected model. Please try again."
     },
     "permissions": {
       "title": "Behörigheter krävs",

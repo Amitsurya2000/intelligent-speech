@@ -96,7 +96,8 @@
     },
     "errors": {
       "loadModels": "Не удалось загрузить доступные модели.",
-      "downloadModel": "Не удалось загрузить модель: {{error}}."
+      "downloadModel": "Не удалось загрузить модель: {{error}}.",
+      "selectModel": "Couldn't activate the selected model. Please try again."
     },
     "permissions": {
       "title": "Требуются разрешения",

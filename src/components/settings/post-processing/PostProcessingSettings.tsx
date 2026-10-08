@@ -68,7 +68,7 @@ const PostProcessingSettingsApiComponent: React.FC = () => {
                     "settings.postProcessing.api.baseUrl.placeholder",
                   )}
                   disabled={state.isBaseUrlUpdating}
-                  className="min-w-[380px]"
+                  className="w-full min-w-0 sm:min-w-[380px]"
                 />
               </div>
             </SettingContainer>
@@ -89,7 +89,7 @@ const PostProcessingSettingsApiComponent: React.FC = () => {
                   "settings.postProcessing.api.apiKey.placeholder",
                 )}
                 disabled={state.isApiKeyUpdating}
-                className="min-w-[320px]"
+                className="w-full min-w-0 sm:min-w-[320px]"
               />
             </div>
           </SettingContainer>
@@ -124,7 +124,7 @@ const PostProcessingSettingsApiComponent: React.FC = () => {
               onSelect={state.handleModelSelect}
               onCreate={state.handleModelCreate}
               onBlur={() => {}}
-              className="flex-1 min-w-[380px]"
+              className="flex-1 min-w-0 sm:min-w-[380px]"
             />
             <ResetButton
               onClick={state.handleRefreshModels}

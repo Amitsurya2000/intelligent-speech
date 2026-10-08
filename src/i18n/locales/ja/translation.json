@@ -96,7 +96,8 @@
     },
     "errors": {
       "loadModels": "利用可能なモデルの読み込みに失敗しました",
-      "downloadModel": "モデルのダウンロードに失敗しました: {{error}}"
+      "downloadModel": "モデルのダウンロードに失敗しました: {{error}}",
+      "selectModel": "Couldn't activate the selected model. Please try again."
     },
     "permissions": {
       "title": "権限が必要です",

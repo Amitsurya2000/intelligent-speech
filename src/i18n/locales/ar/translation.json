@@ -96,7 +96,8 @@
     },
     "errors": {
       "loadModels": "فشل تحميل النماذج المتاحة",
-      "downloadModel": "فشل تنزيل النموذج: {{error}}"
+      "downloadModel": "فشل تنزيل النموذج: {{error}}",
+      "selectModel": "Couldn't activate the selected model. Please try again."
     },
     "permissions": {
       "title": "الأذونات المطلوبة",

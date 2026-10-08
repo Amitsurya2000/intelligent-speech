@@ -96,7 +96,8 @@
     },
     "errors": {
       "loadModels": "Неуспешно зареждане на наличните модели",
-      "downloadModel": "Неуспешно изтегляне на модела: {{error}}"
+      "downloadModel": "Неуспешно изтегляне на модела: {{error}}",
+      "selectModel": "Couldn't activate the selected model. Please try again."
     },
     "permissions": {
       "title": "Необходими разрешения",

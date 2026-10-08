@@ -53,6 +53,20 @@ export const AboutSettings: React.FC = () => {
             {t("settings.about.acknowledgments.whisper.details")}
           </div>
         </SettingContainer>
+
+        {/* eslint-disable i18next/no-literal-string */}
+        <SettingContainer
+          title="Handy"
+          description="The open-source project Intelligent Speech is built on"
+          grouped={true}
+          layout="stacked"
+        >
+          <div className="text-sm text-mid-gray">
+            Intelligent Speech is a fork of Handy by CJ Pais (MIT License),
+            extended with Indian-language models.
+          </div>
+        </SettingContainer>
+        {/* eslint-enable i18next/no-literal-string */}
       </SettingsGroup>
     </div>
   );

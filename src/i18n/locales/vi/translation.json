@@ -96,7 +96,8 @@
     },
     "errors": {
       "loadModels": "Không thể tải các mô hình có sẵn",
-      "downloadModel": "Không thể tải mô hình: {{error}}"
+      "downloadModel": "Không thể tải mô hình: {{error}}",
+      "selectModel": "Couldn't activate the selected model. Please try again."
     },
     "permissions": {
       "title": "Cần cấp quyền",

@@ -25,7 +25,7 @@ const HandyTextLogo = ({
         fontWeight: 800,
         lineHeight: 1.05,
         letterSpacing: "-0.02em",
-        color: "var(--color-logo-primary)",
+        color: "var(--color-brand-text)",
         textAlign: "center",
       }}
     >

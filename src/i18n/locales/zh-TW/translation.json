@@ -96,7 +96,8 @@
     },
     "errors": {
       "loadModels": "無法載入可用模型",
-      "downloadModel": "模型下載失敗: {{error}}"
+      "downloadModel": "模型下載失敗: {{error}}",
+      "selectModel": "Couldn't activate the selected model. Please try again."
     },
     "permissions": {
       "title": "需要權限",

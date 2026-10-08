@@ -96,7 +96,8 @@
     },
     "errors": {
       "loadModels": "Mevcut modeller yüklenemedi",
-      "downloadModel": "Model indirilemedi: {{error}}"
+      "downloadModel": "Model indirilemedi: {{error}}",
+      "selectModel": "Couldn't activate the selected model. Please try again."
     },
     "permissions": {
       "title": "İzinler Gerekli",

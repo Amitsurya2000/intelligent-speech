@@ -96,7 +96,8 @@
     },
     "errors": {
       "loadModels": "Error al cargar los modelos disponibles",
-      "downloadModel": "Error al descargar el modelo: {{error}}"
+      "downloadModel": "Error al descargar el modelo: {{error}}",
+      "selectModel": "Couldn't activate the selected model. Please try again."
     },
     "permissions": {
       "title": "Permisos Requeridos",

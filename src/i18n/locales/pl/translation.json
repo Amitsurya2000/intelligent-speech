@@ -96,7 +96,8 @@
     },
     "errors": {
       "loadModels": "Nie udało się wczytać dostępnych modeli",
-      "downloadModel": "Nie udało się pobrać modelu: {{error}}"
+      "downloadModel": "Nie udało się pobrać modelu: {{error}}",
+      "selectModel": "Couldn't activate the selected model. Please try again."
     },
     "permissions": {
       "title": "Wymagane uprawnienia",
