@@ -12,6 +12,11 @@ incremental = true # Compile your binary in smaller steps.
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+# Microsoft Store (MSIX) build: the Store delivers updates, so the in-app Tauri
+# updater is compiled out. Enabled only by scripts/build-msix.ps1.
+msix = []
+
 [lib]
 # The `_lib` suffix may seem redundant but it is necessary
 # to make the lib name unique and wouldn't conflict with the bin name.
@@ -95,6 +100,9 @@ windows = { version = "0.61.3", features = [
   "Win32_System_Variant",
   "Win32_Foundation",
   "Win32_UI_WindowsAndMessaging",
+  # StartupTask (launch on startup in the MSIX build)
+  "ApplicationModel",
+  "Foundation",
 ] }
 winreg = "0.55"
 

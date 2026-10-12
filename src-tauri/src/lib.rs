@@ -15,10 +15,15 @@ pub mod portable;
 mod settings;
 mod shortcut;
 mod signal_handle;
+mod startup;
 mod transcription_coordinator;
 mod tray;
 mod tray_i18n;
 mod utils;
+
+/// False in the Microsoft Store (MSIX) build, where the Store handles updates.
+/// Normal Windows installer, macOS and Linux builds keep the in-app updater.
+pub const UPDATER_ENABLED: bool = !cfg!(feature = "msix");
 
 pub use cli::CliArgs;
 #[cfg(debug_assertions)]
@@ -41,7 +46,7 @@ pub use transcription_coordinator::TranscriptionCoordinator;
 
 use tauri::tray::TrayIconBuilder;
 use tauri::{AppHandle, Emitter, Listener, Manager};
-use tauri_plugin_autostart::{MacosLauncher, ManagerExt};
+use tauri_plugin_autostart::MacosLauncher;
 use tauri_plugin_log::{Builder as LogBuilder, RotationStrategy, Target, TargetKind};
 
 use crate::settings::get_settings;
@@ -278,17 +283,10 @@ fn initialize_core_logic(app_handle: &AppHandle) {
         tray::update_tray_menu(&app_handle_for_listener, &tray::TrayIconState::Idle, None);
     });
 
-    // Get the autostart manager and configure based on user setting
-    let autostart_manager = app_handle.autolaunch();
+    // Apply the launch-on-startup setting (registry/LaunchAgent normally, the
+    // StartupTask API in the MSIX build).
     let settings = settings::get_settings(&app_handle);
-
-    if settings.autostart_enabled {
-        // Enable autostart if user has opted in
-        let _ = autostart_manager.enable();
-    } else {
-        // Disable autostart if user has opted out
-        let _ = autostart_manager.disable();
-    }
+    startup::set_enabled(&app_handle, settings.autostart_enabled);
 
     // Create the recording overlay window (hidden by default)
     utils::create_recording_overlay(app_handle);
@@ -479,6 +477,12 @@ pub fn run(cli_args: CliArgs) {
         builder = builder.plugin(tauri_nspanel::init());
     }
 
+    // Auto-update is compiled out of the MSIX (Store) build.
+    #[cfg(all(desktop, not(feature = "msix")))]
+    {
+        builder = builder.plugin(tauri_plugin_updater::Builder::new().build());
+    }
+
     builder
         .plugin(tauri_plugin_single_instance::init(|app, args, _cwd| {
             if args.iter().any(|a| a == "--toggle-transcription") {
@@ -493,7 +497,6 @@ pub fn run(cli_args: CliArgs) {
         }))
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_process::init())
-        .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_clipboard_manager::init())
         .plugin(tauri_plugin_macos_permissions::init())

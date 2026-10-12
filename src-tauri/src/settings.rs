@@ -888,6 +888,11 @@ pub fn load_or_create_app_settings(app: &AppHandle) -> AppSettings {
         store.set("settings", serde_json::to_value(&settings).unwrap());
     }
 
+    // The Store build never self-updates, whatever a stored setting says.
+    if !crate::UPDATER_ENABLED {
+        settings.update_checks_enabled = false;
+    }
+
     settings
 }
 

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Template for the Microsoft Store (MSIX) package. scripts/build-msix.ps1 fills in
+  __VERSION__ (4-part, e.g. 1.2.0.0) and stages the app next to this manifest.
+
+  Identity values are the ones assigned by the Microsoft Store (Partner Center >
+  Product identity). They must match exactly or the Store rejects the package.
+-->
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap desktop rescap">
+
+  <Identity
+    Name="intelligentadvisory.IntelligentSpeech"
+    Publisher="CN=92764B88-701F-49CC-99DC-4C1EF773C569"
+    Version="__VERSION__"
+    ProcessorArchitecture="x64" />
+
+  <Properties>
+    <DisplayName>Intelligent Speech</DisplayName>
+    <PublisherDisplayName>intelligent advisory</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="en-us" />
+  </Resources>
+
+  <Applications>
+    <Application Id="IntelligentSpeech" Executable="IntelligentSpeech.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements
+        DisplayName="Intelligent Speech"
+        Description="Offline speech-to-text with Indian-language support. Press a shortcut, speak, and the text appears in any app."
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Square71x71Logo="Assets\Square71x71Logo.png" />
+      </uap:VisualElements>
+      <Extensions>
+        <!-- "Launch on Startup". The registry Run key is virtualized inside MSIX, so the
+             app toggles this task through the StartupTask API (src-tauri/src/startup.rs).
+             TaskId must match STARTUP_TASK_ID there. Off by default; the user opts in. -->
+        <desktop:Extension Category="windows.startupTask" Executable="IntelligentSpeech.exe" EntryPoint="Windows.FullTrustApplication">
+          <desktop:StartupTask TaskId="IntelligentSpeechStartup" Enabled="false" DisplayName="Intelligent Speech" />
+        </desktop:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <!-- Win32 (Tauri) app: needs full trust to type into other apps via global shortcuts. -->
+    <rescap:Capability Name="runFullTrust" />
+    <DeviceCapability Name="microphone" />
+  </Capabilities>
+</Package>

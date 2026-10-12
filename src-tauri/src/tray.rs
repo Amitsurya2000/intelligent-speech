@@ -217,6 +217,11 @@ pub fn update_tray_menu(app: &AppHandle, state: &TrayIconState, locale: Option<&
         .expect("failed to create menu"),
     };
 
+    // The Store (MSIX) build is updated by the Store, so drop the update entry.
+    if !crate::UPDATER_ENABLED {
+        let _ = menu.remove(&check_updates_i);
+    }
+
     let tray = app.state::<TrayIcon>();
     let _ = tray.set_menu(Some(menu));
     let _ = tray.set_icon_as_template(true);

@@ -56,6 +56,14 @@ Stack: Tauri 2 (Rust backend) + React, TypeScript and Tailwind (settings UI).
 
 The updater signing key must be set once as repository secrets `TAURI_SIGNING_PRIVATE_KEY` and `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` (the matching public key is in `tauri.conf.json`). Keep the private key backed up: if it's lost, installed apps can no longer be updated.
 
+### Microsoft Store (MSIX) build
+
+```powershell
+.\scripts\build-msix.ps1      # needs the Windows 10/11 SDK; outputs dist-msix\IntelligentSpeech_<version>_x64.msix
+```
+
+The package uses the Store identity from Partner Center (`intelligentadvisory.IntelligentSpeech`, publisher `CN=92764B88-701F-49CC-99DC-4C1EF773C569`; see `src-tauri/msix/AppxManifest.xml`) and the display name **Intelligent Speech**. The Store updates this package, so the in-app updater is compiled out of the MSIX build only (cargo feature `msix` plus `VITE_MSIX=1`). The regular Windows installer, macOS and Linux builds keep it. Upload the `.msix` unsigned; the Store signs it.
+
 ### Command-line flags
 
 Run the installed app executable (shown here as `intelligent-speech`) with these flags. Remote-control flags are sent to the already-running instance.

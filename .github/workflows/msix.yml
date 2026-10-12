@@ -1,0 +1,68 @@
+name: "MSIX (Microsoft Store)"
+
+# Builds the unsigned Microsoft Store package. The Store signs it on submission,
+# so no certificate is needed here. The in-app updater is compiled out of this
+# build only (see scripts/build-msix.ps1); the regular installer keeps it.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [msix-store]
+
+jobs:
+  msix:
+    runs-on: windows-latest
+    timeout-minutes: 120
+    env:
+      # Same SIMD restrictions as the main build: avoid SIGILL on CPUs without AVX/FMA.
+      GGML_NATIVE: "OFF"
+      GGML_AVX: "OFF"
+      GGML_AVX2: "OFF"
+      GGML_FMA: "OFF"
+      GGML_F16C: "OFF"
+    steps:
+      - name: Enable long paths
+        shell: pwsh
+        run: |
+          New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" `
+            -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
+          git config --system core.longpaths true
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      # whisper-rs-sys builds ggml with the Vulkan backend and needs the SDK.
+      - name: Install Vulkan SDK
+        uses: humbletim/install-vulkan-sdk@v1.2
+        with:
+          version: 1.4.309.0
+          cache: true
+
+      # whisper-rs-sys cmake paths exceed MAX_PATH; keep the target dir short.
+      - name: Shorten build path
+        shell: pwsh
+        run: |
+          $drive = Split-Path -Qualifier $env:GITHUB_WORKSPACE
+          $targetDir = "$drive\t"
+          New-Item -ItemType Directory -Force -Path $targetDir | Out-Null
+          echo "CARGO_TARGET_DIR=$targetDir" >> $env:GITHUB_ENV
+
+      - name: Install frontend dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build MSIX
+        shell: pwsh
+        run: ./scripts/build-msix.ps1
+
+      - name: Upload MSIX
+        uses: actions/upload-artifact@v4
+        with:
+          name: IntelligentSpeech-msix
+          path: dist-msix/*.msix
+          if-no-files-found: error
