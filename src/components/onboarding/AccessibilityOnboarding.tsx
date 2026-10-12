@@ -11,7 +11,8 @@ import { toast } from "sonner";
 import { commands } from "@/bindings";
 import { useSettingsStore } from "@/stores/settingsStore";
 import HandyTextLogo from "../icons/HandyTextLogo";
-import { Keyboard, Mic, Check, Loader2 } from "lucide-react";
+import { Keyboard, Check, Loader2 } from "lucide-react";
+import LogoIcon from "../icons/LogoIcon";
 
 interface AccessibilityOnboardingProps {
   onComplete: () => void;
@@ -331,7 +332,7 @@ const AccessibilityOnboarding: React.FC<AccessibilityOnboardingProps> = ({
           <div className="w-full p-4 rounded-lg bg-white/5 border border-mid-gray/20">
             <div className="flex items-center gap-4">
               <div className="p-3 rounded-full bg-logo-primary/20 shrink-0">
-                <Mic className="w-6 h-6 text-logo-primary" />
+                <LogoIcon width={24} height={24} className="w-6 h-6" />
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-medium text-text">

@@ -1,9 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Cog, FlaskConical, History, Info, Sparkles, Cpu } from "lucide-react";
 import HandyTextLogo from "./icons/HandyTextLogo";
-import HandyHand from "./icons/HandyHand";
+import LogoIcon from "./icons/LogoIcon";
 import { useSettings } from "../hooks/useSettings";
+import { isMobilePlatform } from "../lib/utils/platform";
 import {
   GeneralSettings,
   AdvancedSettings,
@@ -34,43 +34,43 @@ interface SectionConfig {
 export const SECTIONS_CONFIG = {
   general: {
     labelKey: "sidebar.general",
-    icon: HandyHand,
+    icon: LogoIcon,
     component: GeneralSettings,
     enabled: () => true,
   },
   models: {
     labelKey: "sidebar.models",
-    icon: Cpu,
+    icon: LogoIcon,
     component: ModelsSettings,
     enabled: () => true,
   },
   advanced: {
     labelKey: "sidebar.advanced",
-    icon: Cog,
+    icon: LogoIcon,
     component: AdvancedSettings,
     enabled: () => true,
   },
   history: {
     labelKey: "sidebar.history",
-    icon: History,
+    icon: LogoIcon,
     component: HistorySettings,
     enabled: () => true,
   },
   postprocessing: {
     labelKey: "sidebar.postProcessing",
-    icon: Sparkles,
+    icon: LogoIcon,
     component: PostProcessingSettings,
     enabled: (settings) => settings?.post_process_enabled ?? false,
   },
   debug: {
     labelKey: "sidebar.debug",
-    icon: FlaskConical,
+    icon: LogoIcon,
     component: DebugSettings,
     enabled: (settings) => settings?.debug_mode ?? false,
   },
   about: {
     labelKey: "sidebar.about",
-    icon: Info,
+    icon: LogoIcon,
     component: AboutSettings,
     enabled: () => true,
   },
@@ -87,10 +87,42 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const { t } = useTranslation();
   const { settings } = useSettings();
+  const isMobile = isMobilePlatform();
 
   const availableSections = Object.entries(SECTIONS_CONFIG)
     .filter(([_, config]) => config.enabled(settings))
     .map(([id, config]) => ({ id: id as SidebarSection, ...config }));
+
+  if (isMobile) {
+    return (
+      <div
+        className="flex w-full shrink-0 border-t border-mid-gray/20 bg-background"
+        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      >
+        {availableSections.map((section) => {
+          const Icon = section.icon;
+          const isActive = activeSection === section.id;
+
+          return (
+            <button
+              key={section.id}
+              className={`flex-1 flex flex-col items-center gap-0.5 py-2 transition-colors ${
+                isActive
+                  ? "text-logo-primary"
+                  : "text-text opacity-70 hover:opacity-100"
+              }`}
+              onClick={() => onSectionChange(section.id)}
+            >
+              <Icon width={22} height={22} className="shrink-0" />
+              <p className="text-[10px] font-medium truncate max-w-full px-0.5">
+                {t(section.labelKey)}
+              </p>
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col w-40 h-full border-e border-mid-gray/20 items-center px-2">

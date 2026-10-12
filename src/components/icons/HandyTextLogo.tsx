@@ -1,10 +1,8 @@
 import React from "react";
+import LogoIcon from "./LogoIcon";
 
-// Brand wordmark for Intelligent Speech. Rendered as styled text (instead of an
-// SVG wordmark) so it always reflects the product name. Sizing scales from the
-// `width` prop so existing call sites (width={200} / width={120}) keep working.
-const BRAND_NAME = "Intelligent Speech";
-
+// Brand mark for Intelligent Speech. Name kept for existing call sites
+// (width={200} / width={120}); it now renders only the logo icon.
 const HandyTextLogo = ({
   width,
   height,
@@ -14,22 +12,10 @@ const HandyTextLogo = ({
   height?: number;
   className?: string;
 }) => {
-  const fontSize = width ? Math.max(14, Math.round(width / 7)) : 26;
+  const size = Math.round((width ?? 120) / 2);
   return (
-    <div
-      className={className}
-      style={{
-        width: width ? `${width}px` : undefined,
-        height: height ? `${height}px` : undefined,
-        fontSize: `${fontSize}px`,
-        fontWeight: 800,
-        lineHeight: 1.05,
-        letterSpacing: "-0.02em",
-        color: "var(--color-brand-text)",
-        textAlign: "center",
-      }}
-    >
-      {BRAND_NAME}
+    <div className={`flex justify-center ${className ?? ""}`}>
+      <LogoIcon width={height ?? size} height={height ?? size} />
     </div>
   );
 };
