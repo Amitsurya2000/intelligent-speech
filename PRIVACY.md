@@ -84,4 +84,4 @@ If the app's data practices change, we will update this page and its "Last updat
 
 ## Contact
 
-Questions or requests about privacy: **rajanv3003@gmail.com**
+Questions or requests about privacy: **rajan30033@gmail.com**
