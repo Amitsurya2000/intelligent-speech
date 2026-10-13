@@ -370,8 +370,8 @@ pub fn run(cli_args: CliArgs) {
             shortcut::change_ort_accelerator_setting,
             shortcut::change_whisper_gpu_device,
             shortcut::get_available_accelerators,
-            shortcut::handy_keys::start_handy_keys_recording,
-            shortcut::handy_keys::stop_handy_keys_recording,
+            shortcut::native_keys::start_native_keys_recording,
+            shortcut::native_keys::stop_native_keys_recording,
             trigger_update_check,
             show_main_window_command,
             commands::cancel_operation,
@@ -457,11 +457,11 @@ pub fn run(cli_args: CliArgs) {
                     Target::new(if let Some(data_dir) = portable::data_dir() {
                         TargetKind::Folder {
                             path: data_dir.join("logs"),
-                            file_name: Some("handy".into()),
+                            file_name: Some("intelligent-speech".into()),
                         }
                     } else {
                         TargetKind::LogDir {
-                            file_name: Some("handy".into()),
+                            file_name: Some("intelligent-speech".into()),
                         }
                     })
                     .filter(|metadata| {

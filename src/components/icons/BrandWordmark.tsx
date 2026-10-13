@@ -5,7 +5,7 @@ import React from "react";
 // `width` prop so existing call sites (width={200} / width={120}) keep working.
 const BRAND_NAME = "Intelligent Speech";
 
-const HandyTextLogo = ({
+const BrandWordmark = ({
   width,
   height,
   className,
@@ -34,4 +34,4 @@ const HandyTextLogo = ({
   );
 };
 
-export default HandyTextLogo;
+export default BrandWordmark;

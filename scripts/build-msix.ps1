@@ -45,10 +45,9 @@ if (-not $SkipBuild) {
 # --- locate build output (respects .cargo/config.toml target-dir)
 $meta = cargo metadata --manifest-path "$root\src-tauri\Cargo.toml" --no-deps --format-version 1 | ConvertFrom-Json
 $release = Join-Path $meta.target_directory "release"
-# The build output is named by "mainBinaryName" in tauri.conf.json (older builds: handy.exe).
-$exe = "IntelligentSpeech.exe", "handy.exe" | ForEach-Object { Join-Path $release $_ } |
-  Where-Object { Test-Path $_ } | Select-Object -First 1
-if (-not $exe) { throw "Release build not found in $release (run without -SkipBuild)" }
+# The build output is named by "mainBinaryName" in tauri.conf.json.
+$exe = Join-Path $release "IntelligentSpeech.exe"
+if (-not (Test-Path $exe)) { throw "Release build not found at $exe (run without -SkipBuild)" }
 
 # --- stage package contents
 $stage = Join-Path $root "dist-msix\stage"

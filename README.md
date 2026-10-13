@@ -4,7 +4,7 @@
 
 Press a shortcut, speak, and your words appear in whatever app you're using. Transcription runs entirely on your own computer: no audio ever leaves your machine.
 
-Intelligent Speech is a fork of the open-source [Handy](https://github.com/cjpais/Handy) (MIT), extended with Indian-language models and its own branding.
+Intelligent Speech is open source (MIT) and includes models tuned for Indian languages.
 
 ## Features
 
@@ -83,4 +83,4 @@ For reliable text input install `xdotool` (X11) or `wtype` / `dotool` (Wayland).
 
 ## License and credits
 
-MIT. Built on [Handy](https://github.com/cjpais/Handy) by CJ Pais, [whisper.cpp](https://github.com/ggml-org/whisper.cpp), [transcribe-rs](https://github.com/cjpais/transcribe-rs) and [Silero VAD](https://github.com/snakers4/silero-vad).
+MIT. Built with [whisper.cpp](https://github.com/ggml-org/whisper.cpp), [transcribe-rs](https://github.com/Amitsurya2000/transcribe-rs) and [Silero VAD](https://github.com/snakers4/silero-vad).

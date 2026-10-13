@@ -1,11 +1,11 @@
 [package]
-name = "handy"
+name = "intelligent-speech"
 version = "0.8.3"
-description = "Handy"
-authors = ["cjpais"]
+description = "Intelligent Speech"
+authors = ["intelligent advisory"]
 edition = "2021"
 license = "MIT"
-default-run = "handy"
+default-run = "intelligent-speech"
 
 [profile.dev]
 incremental = true # Compile your binary in smaller steps.
@@ -21,7 +21,7 @@ msix = []
 # The `_lib` suffix may seem redundant but it is necessary
 # to make the lib name unique and wouldn't conflict with the bin name.
 # This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
-name = "handy_app_lib"
+name = "intelligent_speech_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 # [[bin]]
@@ -75,7 +75,8 @@ tar = "0.4.44"
 flate2 = "1.0"
 sha2 = "0.10"
 transcribe-rs = { git = "https://github.com/Amitsurya2000/transcribe-rs", branch = "main", features = ["whisper-cpp", "onnx"] }
-handy-keys = "0.2.4"
+# Third-party key-capture crate (published under another name on crates.io).
+key-capture = { package = "handy-keys", version = "0.2.4" }
 ferrous-opencc = "0.2.3"
 clap = { version = "4", features = ["derive"] }
 specta = "=2.0.0-rc.22"
