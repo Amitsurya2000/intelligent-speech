@@ -6,7 +6,6 @@ import { SettingContainer } from "../../ui/SettingContainer";
 import { AppDataDirectory } from "../AppDataDirectory";
 import { AppLanguageSelector } from "../AppLanguageSelector";
 import { LogDirectory } from "../debug";
-import LogoIcon from "../../icons/LogoIcon";
 
 export const AboutSettings: React.FC = () => {
   const { t } = useTranslation();
@@ -28,9 +27,6 @@ export const AboutSettings: React.FC = () => {
 
   return (
     <div className="max-w-3xl w-full mx-auto space-y-6">
-      <div className="flex justify-center pt-2">
-        <LogoIcon width={96} height={96} />
-      </div>
       <SettingsGroup title={t("settings.about.title")}>
         <AppLanguageSelector descriptionMode="tooltip" grouped={true} />
         <SettingContainer
