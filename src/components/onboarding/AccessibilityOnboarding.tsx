@@ -314,6 +314,7 @@ const AccessibilityOnboarding: React.FC<AccessibilityOnboardingProps> = ({
   return (
     <div className="h-screen w-screen flex flex-col p-6 gap-6 items-center justify-center">
       <div className="flex flex-col items-center gap-2">
+        <LogoIcon width={72} height={72} />
         <BrandWordmark width={200} />
       </div>
 
