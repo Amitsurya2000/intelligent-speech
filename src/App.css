@@ -18,6 +18,9 @@
   line-height: 24px;
   font-weight: 400;
 
+  /* The app is always light, whatever the system theme is. */
+  color-scheme: light;
+
   /* Colors - Light Theme */
   /* --color-text: #0f0f0f;
   --color-background: #fbfbfb;
@@ -51,17 +54,6 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Colors - Dark Theme */
-    --color-text: #fbfbfb;
-    --color-background: #2c2b29;
-    --color-logo-primary: #059669;
-    --color-brand-text: #34d399;
-    --color-logo-stroke: #34d399;
-  }
 }
 
 /* macOS - tint native overlay scrollbar thumb */

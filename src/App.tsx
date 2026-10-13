@@ -253,7 +253,7 @@ function App() {
       className="h-screen flex flex-col select-none cursor-default"
     >
       <Toaster
-        theme="system"
+        theme="light"
         toastOptions={{
           unstyled: true,
           classNames: {
