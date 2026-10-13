@@ -1,0 +1,73 @@
+name: "Windows installer (test build)"
+
+# Builds the normal (NSIS) Windows installer, unsigned and without the Store flags,
+# so it keeps the in-app updater like a regular release. For trying a branch on a
+# real PC. Runs by hand, or on a push to the `installer-test` branch.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [installer-test]
+
+jobs:
+  installer:
+    runs-on: windows-latest
+    timeout-minutes: 120
+    env:
+      # Same SIMD restrictions as the main build: avoid SIGILL on CPUs without AVX/FMA.
+      GGML_NATIVE: "OFF"
+      GGML_AVX: "OFF"
+      GGML_AVX2: "OFF"
+      GGML_FMA: "OFF"
+      GGML_F16C: "OFF"
+    steps:
+      - name: Enable long paths
+        shell: pwsh
+        run: |
+          New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" `
+            -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
+          git config --system core.longpaths true
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Vulkan SDK
+        uses: humbletim/install-vulkan-sdk@v1.2
+        with:
+          version: 1.4.309.0
+          cache: true
+
+      # whisper-rs-sys cmake paths exceed MAX_PATH; keep the target dir short.
+      - name: Shorten build path
+        shell: pwsh
+        run: |
+          $drive = Split-Path -Qualifier $env:GITHUB_WORKSPACE
+          $targetDir = "$drive\t"
+          New-Item -ItemType Directory -Force -Path $targetDir | Out-Null
+          echo "CARGO_TARGET_DIR=$targetDir" >> $env:GITHUB_ENV
+
+      - name: Install frontend dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build installer
+        run: bun run tauri build --bundles nsis
+
+      - name: Collect installer
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path installer-out | Out-Null
+          Copy-Item "$env:CARGO_TARGET_DIR\release\bundle\nsis\*-setup.exe" installer-out\
+          Get-ChildItem installer-out
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: IntelligentSpeech-windows-installer
+          path: installer-out/*.exe
+          if-no-files-found: error
