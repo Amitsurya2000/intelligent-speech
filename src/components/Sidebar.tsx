@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Cog, FlaskConical, History, Info, Sparkles, Cpu } from "lucide-react";
 import HandyTextLogo from "./icons/HandyTextLogo";
 import LogoIcon from "./icons/LogoIcon";
 import { useSettings } from "../hooks/useSettings";
@@ -40,37 +41,37 @@ export const SECTIONS_CONFIG = {
   },
   models: {
     labelKey: "sidebar.models",
-    icon: LogoIcon,
+    icon: Cpu,
     component: ModelsSettings,
     enabled: () => true,
   },
   advanced: {
     labelKey: "sidebar.advanced",
-    icon: LogoIcon,
+    icon: Cog,
     component: AdvancedSettings,
     enabled: () => true,
   },
   history: {
     labelKey: "sidebar.history",
-    icon: LogoIcon,
+    icon: History,
     component: HistorySettings,
     enabled: () => true,
   },
   postprocessing: {
     labelKey: "sidebar.postProcessing",
-    icon: LogoIcon,
+    icon: Sparkles,
     component: PostProcessingSettings,
     enabled: (settings) => settings?.post_process_enabled ?? false,
   },
   debug: {
     labelKey: "sidebar.debug",
-    icon: LogoIcon,
+    icon: FlaskConical,
     component: DebugSettings,
     enabled: (settings) => settings?.debug_mode ?? false,
   },
   about: {
     labelKey: "sidebar.about",
-    icon: LogoIcon,
+    icon: Info,
     component: AboutSettings,
     enabled: () => true,
   },

@@ -22,7 +22,16 @@ const LogoIcon: React.FC<LogoIconProps> = ({
     className={className}
     aria-label="Intelligent Speech"
   >
-    <rect width="1024" height="1024" rx="224" fill="#0F8A5F" />
+    {/* Light inner outline keeps the mark visible on the green selected-item highlight. */}
+    <rect
+      width="1024"
+      height="1024"
+      rx="224"
+      fill="#0F8A5F"
+      stroke="#FFFFFF"
+      strokeOpacity="0.7"
+      strokeWidth="56"
+    />
     <g fill="#FFFFFF">
       <rect x="188" y="362" width="84" height="300" rx="42" />
       <rect x="320" y="252" width="84" height="520" rx="42" />
