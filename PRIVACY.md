@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Intelligent Speech** · Published by intelligent advisory · Last updated: 12 October 2026
+**Intelligent Speech** · Published by intelligent advisory · Last updated: 13 October 2026
 
 Intelligent Speech turns your voice into text on your own computer. **Your audio is never uploaded**, and the app has no accounts, no ads, no analytics and no crash reporting. This page explains exactly what the app does with your microphone, what it stores on your device, and the few cases where it connects to the internet.
 
@@ -53,7 +53,7 @@ Everything below stays on your computer. Nothing is uploaded.
 | **History** | A local database with the transcribed text of each dictation, plus the AI-processed text and prompt if you used post-processing. History size is limited by the same setting. You can delete entries individually. |
 | **Settings** | Your preferences, shortcuts, custom words, and any AI API key you enter. **API keys are stored as plain text in the settings file**, so only use keys on a computer you trust, and consider using restricted keys. |
 | **Speech models** | The model files you download. |
-| **Log file** | A small diagnostic log (`handy.log`, rotated at about 500 KB, with one older copy kept). **At the default log level the log includes the text of each transcription.** To stop this, open the Debug page and set **Log Level** to Warning or Error. You can also delete the log files at any time. |
+| **Log file** | A small diagnostic log (`handy.log` in the standard installer, `intelligent-speech.log` in the Microsoft Store version; rotated at about 500 KB, with one older copy kept). **At the default log level the log includes the text of each transcription.** To stop this, open the Debug page and set **Log Level** to Warning or Error. You can also delete the log files at any time. |
 
 **Where:** in the app's data folder. On Windows this is `%APPDATA%\com.intelligentspeech.app` (settings, history, recordings, models) and `%LOCALAPPDATA%\com.intelligentspeech.app\logs` (logs). On macOS it is `~/Library/Application Support/com.intelligentspeech.app`, and on Linux `~/.local/share/com.intelligentspeech.app`. The About page shows the exact paths and has buttons to open them. In the Microsoft Store version this data lives in the app's package storage and is removed when you uninstall. In portable mode everything is kept in a `Data` folder next to the app.
 
@@ -84,4 +84,4 @@ If the app's data practices change, we will update this page and its "Last updat
 
 ## Contact
 
-Questions or requests about privacy: **rajan30033@gmail.com**
+Questions or requests about privacy: **rajan@intelligentadvisory.in**
